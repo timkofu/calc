@@ -1,3 +1,5 @@
+#![doc(html_no_source)]
+
 pub fn add(left: usize, right: usize) -> usize {
     left + right
 }

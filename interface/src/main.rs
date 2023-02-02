@@ -1,3 +1,5 @@
+#![doc(html_no_source)]
+
 use gtk::prelude::*;
 use gtk::{Application, ApplicationWindow, Button};
 
