@@ -1,2 +1,2 @@
-# Oxidation
-**Learning Rust**
+# Calc
+**Learning [Rust](https://www.rust-lang.org/).**
