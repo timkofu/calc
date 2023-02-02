@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Run: git config core.hooksPath `pwd`/.githooks
+
+cargo update
+EXIT_CODES+=( $? )
+make release
+EXIT_CODES+=( $? )
+git add Cargo.lock docs
+EXIT_CODES+=( $? )
+
+# Check that all commands exited with success (0), and if not, stop the commit
+for e in ${EXIT_CODES[@]}; do
+   if [[ $e -gt 0 ]]
+   then
+       exit 1
+   fi
+done
