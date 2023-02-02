@@ -419,6 +419,7 @@ name = "interface"
 version = "0.1.0"
 dependencies = [
  "domain",
+ "glib",
  "gtk4",
 ]
 
