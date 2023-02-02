@@ -16,6 +16,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+      with:
+        fetch-depth: 1
+    - name: Install OS level dependancies
+      run: sudo apt install libgtk-4-dev build-essential -y
     - name: Build
       run: cargo build --verbose
     - name: Run tests
