@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"constant":[["APP_ID",""]],"fn":[["build_ui",""],["main",""]]};
+window.SIDEBAR_ITEMS = {"fn":[["main",""]],"struct":[["Calc",""]]};
