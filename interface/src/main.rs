@@ -1,26 +1,18 @@
-#![doc(html_no_source)]
-
 use eframe::egui;
-
-#[derive(Default)]
-struct Calc {}
-
-impl eframe::App for Calc {
-    fn update(&mut self, ctx: &egui::Context, frame: &mut eframe::Frame) {
-        egui::CentralPanel::default().show(ctx, |ui| ui.heading("Calc"));
-    }
-}
-impl Calc {
-    fn new(cc: &eframe::CreationContext<'_>) -> Self {
-        Self::default()
-    }
-}
+mod custom_window_frame;
 
 fn main() {
-    let native_options = eframe::NativeOptions::default();
+    let options = eframe::NativeOptions {
+        decorated: false,
+        transparent: true,
+        min_window_size: Some(egui::vec2(377.0, 610.0)),
+        initial_window_size: Some(egui::vec2(377.0, 610.0)),
+        resizable: false,
+        ..Default::default()
+    };
     eframe::run_native(
         "Calc",
-        native_options,
-        Box::new(|cc| Box::new(Calc::new(cc))),
+        options,
+        Box::new(|_egui_context| Box::new(custom_window_frame::Calc::default())),
     )
 }
