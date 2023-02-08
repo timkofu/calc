@@ -9,4 +9,3 @@ edition = "2021"
 domain = { path = "../domain"}
 eframe = "0.20.1"
 time = "0.3.17"
-
