@@ -1,3 +1,3 @@
 (function() {var implementors = {
-"interface":[["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.67.0/core/panic/unwind_safe/trait.UnwindSafe.html\" title=\"trait core::panic::unwind_safe::UnwindSafe\">UnwindSafe</a> for <a class=\"struct\" href=\"interface/custom_window_frame/struct.Calc.html\" title=\"struct interface::custom_window_frame::Calc\">Calc</a>",1,["interface::custom_window_frame::Calc"]]]
+"interface":[["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.67.0/core/panic/unwind_safe/trait.UnwindSafe.html\" title=\"trait core::panic::unwind_safe::UnwindSafe\">UnwindSafe</a> for <a class=\"struct\" href=\"interface/gui/struct.Calc.html\" title=\"struct interface::gui::Calc\">Calc</a>",1,["interface::gui::Calc"]]]
 };if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

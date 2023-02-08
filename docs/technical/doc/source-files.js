@@ -1,5 +1,5 @@
 var sourcesIndex = JSON.parse('{\
 "domain":["",[],["lib.rs"]],\
-"interface":["",[],["custom_window_frame.rs","main.rs"]]\
+"interface":["",[],["gui.rs","main.rs"]]\
 }');
 createSourceSidebar();

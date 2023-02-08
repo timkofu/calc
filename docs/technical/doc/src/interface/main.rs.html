@@ -16,8 +16,13 @@
 <a href="#16" id="16">16</a>
 <a href="#17" id="17">17</a>
 <a href="#18" id="18">18</a>
+<a href="#19" id="19">19</a>
+<a href="#20" id="20">20</a>
+<a href="#21" id="21">21</a>
+<a href="#22" id="22">22</a>
+<a href="#23" id="23">23</a>
 </pre><pre class="rust"><code><span class="kw">use </span>eframe::egui;
-<span class="kw">mod </span>custom_window_frame;
+<span class="kw">mod </span>gui;
 
 <span class="kw">fn </span>main() {
     <span class="kw">let </span>options = eframe::NativeOptions {
@@ -26,12 +31,17 @@
         min_window_size: <span class="prelude-val">Some</span>(egui::vec2(<span class="number">377.0</span>, <span class="number">610.0</span>)),
         initial_window_size: <span class="prelude-val">Some</span>(egui::vec2(<span class="number">377.0</span>, <span class="number">610.0</span>)),
         resizable: <span class="bool-val">false</span>,
+        icon_data: <span class="prelude-val">Some</span>(eframe::IconData {
+            rgba: <span class="macro">vec!</span>[<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>],
+            width: <span class="number">16</span>,
+            height: <span class="number">16</span>,
+        }),
         ..Default::default()
     };
     eframe::run_native(
         <span class="string">&quot;Calc&quot;</span>,
         options,
-        Box::new(|_egui_context| Box::new(custom_window_frame::Calc::default())),
+        Box::new(|_egui_context| Box::new(gui::Calc::default())),
     )
 }
 </code></pre></div>
