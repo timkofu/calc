@@ -202,6 +202,7 @@
 <a href="#202" id="202">202</a>
 <a href="#203" id="203">203</a>
 <a href="#204" id="204">204</a>
+<a href="#205" id="205">205</a>
 </pre><pre class="rust"><code><span class="kw">pub mod </span>gui {
 
     <span class="kw">use </span>chrono::Local;
@@ -298,7 +299,9 @@
             custom_window_frame(<span class="self">self</span>, ctx, frame, <span class="string">&quot;Calc&quot;</span>, |ui| {
                 ui.separator();
 
-                <span class="kw">let </span>calculation: String = String::from(<span class="string">&quot;0&quot;</span>);
+                <span class="comment">// TO-DO: Make this a type so I can restrict chars to 32
+                // so they can fit on display.
+                </span><span class="kw">let </span>calculation: String = String::from(<span class="string">&quot;0&quot;</span>);
 
                 ui.add_sized(
                     vec2(ui.available_width(), <span class="number">144.0</span>),
@@ -306,8 +309,7 @@
                         RichText::new(<span class="kw-2">&amp;</span>calculation)
                             .color(Color32::GREEN)
                             .size(<span class="number">34.0</span>)
-                            .strong()
-                            .raised(),
+                            .strong(),
                     ),
                 );
 

@@ -94,6 +94,8 @@ pub mod gui {
             custom_window_frame(self, ctx, frame, "Calc", |ui| {
                 ui.separator();
 
+                // TO-DO: Make this a type so I can restrict chars to 32
+                // so they can fit on display.
                 let calculation: String = String::from("0");
 
                 ui.add_sized(
@@ -102,8 +104,7 @@ pub mod gui {
                         RichText::new(&calculation)
                             .color(Color32::GREEN)
                             .size(34.0)
-                            .strong()
-                            .raised(),
+                            .strong(),
                     ),
                 );
 
