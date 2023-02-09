@@ -1,5 +1,7 @@
+use crate::gui::gui::*;
 use eframe::egui;
-mod gui;
+
+pub mod gui;
 
 fn main() {
     let options = eframe::NativeOptions {
@@ -13,6 +15,6 @@ fn main() {
     eframe::run_native(
         "Calc",
         options,
-        Box::new(|_egui_context| Box::new(gui::Calc::default())),
+        Box::new(|_egui_context| Box::new(Calc::default())),
     )
 }

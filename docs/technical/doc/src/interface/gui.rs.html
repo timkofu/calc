@@ -199,205 +199,211 @@
 <a href="#199" id="199">199</a>
 <a href="#200" id="200">200</a>
 <a href="#201" id="201">201</a>
-</pre><pre class="rust"><code><span class="kw">use </span>eframe::egui;
-<span class="kw">use </span>egui::<span class="kw-2">*</span>;
-<span class="kw">use </span>time::OffsetDateTime;
+<a href="#202" id="202">202</a>
+<a href="#203" id="203">203</a>
+<a href="#204" id="204">204</a>
+</pre><pre class="rust"><code><span class="kw">pub mod </span>gui {
 
-<span class="attr">#[derive(Default)]
-</span><span class="kw">pub struct </span>Calc {}
+    <span class="kw">use </span>chrono::Local;
+    <span class="kw">use </span>eframe::egui;
+    <span class="kw">use </span>egui::<span class="kw-2">*</span>;
 
-<span class="kw">pub fn </span>custom_window_frame(
-    _app: <span class="kw-2">&amp;mut </span>Calc,
-    ctx: <span class="kw-2">&amp;</span>egui::Context,
-    frame: <span class="kw-2">&amp;mut </span>eframe::Frame,
-    title: <span class="kw-2">&amp;</span>str,
-    add_contents: <span class="kw">impl </span>FnOnce(<span class="kw-2">&amp;mut </span>egui::Ui),
-) {
-    <span class="kw">let </span>text_color = ctx.style().visuals.text_color();
+    <span class="attr">#[derive(Default)]
+    </span><span class="kw">pub struct </span>Calc {}
 
-    <span class="kw">let </span>titlebar_height = <span class="number">28.0</span>;
+    <span class="kw">fn </span>custom_window_frame(
+        _app: <span class="kw-2">&amp;mut </span>Calc,
+        ctx: <span class="kw-2">&amp;</span>egui::Context,
+        frame: <span class="kw-2">&amp;mut </span>eframe::Frame,
+        title: <span class="kw-2">&amp;</span>str,
+        add_contents: <span class="kw">impl </span>FnOnce(<span class="kw-2">&amp;mut </span>egui::Ui),
+    ) {
+        <span class="kw">let </span>text_color = ctx.style().visuals.text_color();
 
-    CentralPanel::default()
-        .frame(Frame::none())
-        .show(ctx, |ui| {
-            <span class="kw">let </span>rect = ui.max_rect();
-            <span class="kw">let </span>painter = ui.painter();
+        <span class="kw">let </span>titlebar_height = <span class="number">28.0</span>;
 
-            <span class="comment">// Paint the frame:
-            </span>painter.rect(
-                rect.shrink(<span class="number">1.0</span>),
-                <span class="number">10.0</span>,
-                ctx.style().visuals.window_fill(),
-                Stroke::new(<span class="number">1.0</span>, text_color),
-            );
+        CentralPanel::default()
+            .frame(Frame::none())
+            .show(ctx, |ui| {
+                <span class="kw">let </span>rect = ui.max_rect();
+                <span class="kw">let </span>painter = ui.painter();
 
-            <span class="comment">// Paint the title:
-            </span>painter.text(
-                rect.center_top() + vec2(<span class="number">0.0</span>, titlebar_height / <span class="number">2.0</span>),
-                Align2::CENTER_CENTER,
-                title,
-                FontId::proportional(titlebar_height * <span class="number">0.8</span>),
-                text_color,
-            );
+                <span class="comment">// Paint the frame:
+                </span>painter.rect(
+                    rect.shrink(<span class="number">1.0</span>),
+                    <span class="number">10.0</span>,
+                    ctx.style().visuals.window_fill(),
+                    Stroke::new(<span class="number">1.0</span>, text_color),
+                );
 
-            <span class="comment">// Paint the line under the title:
-            </span>painter.line_segment(
-                [
-                    rect.left_top() + vec2(<span class="number">2.0</span>, titlebar_height),
-                    rect.right_top() + vec2(-<span class="number">2.0</span>, titlebar_height),
-                ],
-                Stroke::new(<span class="number">1.0</span>, text_color),
-            );
+                <span class="comment">// Paint the title:
+                </span>painter.text(
+                    rect.center_top() + vec2(<span class="number">0.0</span>, titlebar_height / <span class="number">2.0</span>),
+                    Align2::CENTER_CENTER,
+                    title,
+                    FontId::proportional(titlebar_height * <span class="number">0.8</span>),
+                    text_color,
+                );
 
-            <span class="comment">// Drag to move window:
-            </span><span class="kw">let </span>title_bar_rect = {
-                <span class="kw">let </span><span class="kw-2">mut </span>rect = rect;
-                rect.max.y = rect.min.y + titlebar_height;
-                rect
-            };
-            <span class="kw">let </span>title_bar_response =
-                ui.interact(title_bar_rect, Id::new(<span class="string">&quot;title_bar&quot;</span>), Sense::click());
+                <span class="comment">// Paint the line under the title:
+                </span>painter.line_segment(
+                    [
+                        rect.left_top() + vec2(<span class="number">2.0</span>, titlebar_height),
+                        rect.right_top() + vec2(-<span class="number">2.0</span>, titlebar_height),
+                    ],
+                    Stroke::new(<span class="number">1.0</span>, text_color),
+                );
 
-            <span class="kw">if </span>title_bar_response.is_pointer_button_down_on() {
-                frame.drag_window();
-            }
+                <span class="comment">// Drag to move window:
+                </span><span class="kw">let </span>title_bar_rect = {
+                    <span class="kw">let </span><span class="kw-2">mut </span>rect = rect;
+                    rect.max.y = rect.min.y + titlebar_height;
+                    rect
+                };
+                <span class="kw">let </span>title_bar_response =
+                    ui.interact(title_bar_rect, Id::new(<span class="string">&quot;title_bar&quot;</span>), Sense::click());
 
-            <span class="comment">// Add the close button:
-            </span><span class="kw">let </span>close_response = ui.put(
-                Rect::from_min_max(pos2(<span class="number">345.0</span>, <span class="number">0.0</span>), rect.right_top()),
-                Button::new(RichText::new(<span class="string">&quot;❌&quot;</span>).size(titlebar_height - <span class="number">4.0</span>)).frame(<span class="bool-val">false</span>),
-            );
-            <span class="kw">if </span>close_response.clicked() {
-                frame.close();
-            }
+                <span class="kw">if </span>title_bar_response.is_pointer_button_down_on() {
+                    frame.drag_window();
+                }
 
-            <span class="comment">// Contents:
-            </span><span class="kw">let </span>content_rect = {
-                <span class="kw">let </span><span class="kw-2">mut </span>rect = rect;
-                rect.min.y = title_bar_rect.max.y;
-                rect
-            }
-            .shrink(<span class="number">4.0</span>);
-            <span class="kw">let </span><span class="kw-2">mut </span>content_ui = ui.child_ui(content_rect, <span class="kw-2">*</span>ui.layout());
-            add_contents(<span class="kw-2">&amp;mut </span>content_ui);
-        });
-}
+                <span class="comment">// Add the close button:
+                </span><span class="kw">let </span>close_response = ui.put(
+                    Rect::from_min_max(pos2(<span class="number">345.0</span>, <span class="number">0.0</span>), rect.right_top()),
+                    Button::new(RichText::new(<span class="string">&quot;❌&quot;</span>).size(titlebar_height - <span class="number">4.0</span>)).frame(<span class="bool-val">false</span>),
+                );
+                <span class="kw">if </span>close_response.clicked() {
+                    frame.close();
+                }
 
-<span class="kw">impl </span>eframe::App <span class="kw">for </span>Calc {
-    <span class="kw">fn </span>clear_color(<span class="kw-2">&amp;</span><span class="self">self</span>, _visuals: <span class="kw-2">&amp;</span>egui::Visuals) -&gt; egui::Rgba {
-        egui::Rgba::TRANSPARENT
+                <span class="comment">// Contents:
+                </span><span class="kw">let </span>content_rect = {
+                    <span class="kw">let </span><span class="kw-2">mut </span>rect = rect;
+                    rect.min.y = title_bar_rect.max.y;
+                    rect
+                }
+                .shrink(<span class="number">4.0</span>);
+                <span class="kw">let </span><span class="kw-2">mut </span>content_ui = ui.child_ui(content_rect, <span class="kw-2">*</span>ui.layout());
+                add_contents(<span class="kw-2">&amp;mut </span>content_ui);
+            });
     }
 
-    <span class="kw">fn </span>update(<span class="kw-2">&amp;mut </span><span class="self">self</span>, ctx: <span class="kw-2">&amp;</span>egui::Context, frame: <span class="kw-2">&amp;mut </span>eframe::Frame) {
-        frame.set_centered();
-        custom_window_frame(<span class="self">self</span>, ctx, frame, <span class="string">&quot;Calc&quot;</span>, |ui| {
-            ui.separator();
+    <span class="kw">impl </span>eframe::App <span class="kw">for </span>Calc {
+        <span class="kw">fn </span>clear_color(<span class="kw-2">&amp;</span><span class="self">self</span>, _visuals: <span class="kw-2">&amp;</span>egui::Visuals) -&gt; egui::Rgba {
+            egui::Rgba::TRANSPARENT
+        }
 
-            <span class="kw">let </span>calculation: String = String::from(<span class="string">&quot;0&quot;</span>);
+        <span class="kw">fn </span>update(<span class="kw-2">&amp;mut </span><span class="self">self</span>, ctx: <span class="kw-2">&amp;</span>egui::Context, frame: <span class="kw-2">&amp;mut </span>eframe::Frame) {
+            frame.set_centered();
+            custom_window_frame(<span class="self">self</span>, ctx, frame, <span class="string">&quot;Calc&quot;</span>, |ui| {
+                ui.separator();
 
-            ui.add_sized(
-                vec2(ui.available_width(), <span class="number">144.0</span>),
-                egui::widgets::Label::new(
-                    RichText::new(<span class="kw-2">&amp;</span>calculation)
-                        .color(Color32::GREEN)
-                        .size(<span class="number">34.0</span>)
-                        .strong()
-                        .raised(),
-                ),
-            );
+                <span class="kw">let </span>calculation: String = String::from(<span class="string">&quot;0&quot;</span>);
 
-            ui.separator();
-
-            ui.horizontal(|ui| {
                 ui.add_sized(
-                    vec2(<span class="number">127.3</span>, <span class="number">55.0</span>),
-                    egui::widgets::Button::new(RichText::new(<span class="string">&quot;1&quot;</span>).strong().size(<span class="number">21.0</span>)),
+                    vec2(ui.available_width(), <span class="number">144.0</span>),
+                    egui::widgets::Label::new(
+                        RichText::new(<span class="kw-2">&amp;</span>calculation)
+                            .color(Color32::GREEN)
+                            .size(<span class="number">34.0</span>)
+                            .strong()
+                            .raised(),
+                    ),
                 );
+
+                ui.separator();
+
+                ui.horizontal(|ui| {
+                    ui.add_sized(
+                        vec2(<span class="number">127.3</span>, <span class="number">55.0</span>),
+                        egui::widgets::Button::new(RichText::new(<span class="string">&quot;1&quot;</span>).strong().size(<span class="number">21.0</span>)),
+                    );
+                    ui.add_sized(
+                        vec2(<span class="number">127.3</span>, <span class="number">55.0</span>),
+                        egui::widgets::Button::new(RichText::new(<span class="string">&quot;2&quot;</span>).strong().size(<span class="number">21.0</span>)),
+                    );
+                    ui.add_sized(
+                        vec2(<span class="number">97.3</span>, <span class="number">55.0</span>),
+                        egui::widgets::Button::new(RichText::new(<span class="string">&quot;+&quot;</span>).strong().size(<span class="number">21.0</span>)),
+                    );
+                });
+                ui.horizontal(|ui| {
+                    ui.add_sized(
+                        vec2(<span class="number">127.3</span>, <span class="number">55.0</span>),
+                        egui::widgets::Button::new(RichText::new(<span class="string">&quot;3&quot;</span>).strong().size(<span class="number">21.0</span>)),
+                    );
+                    ui.add_sized(
+                        vec2(<span class="number">127.3</span>, <span class="number">55.0</span>),
+                        egui::widgets::Button::new(RichText::new(<span class="string">&quot;4&quot;</span>).strong().size(<span class="number">21.0</span>)),
+                    );
+                    ui.add_sized(
+                        vec2(<span class="number">97.3</span>, <span class="number">55.0</span>),
+                        egui::widgets::Button::new(RichText::new(<span class="string">&quot;-&quot;</span>).strong().size(<span class="number">21.0</span>)),
+                    );
+                });
+                ui.horizontal(|ui| {
+                    ui.add_sized(
+                        vec2(<span class="number">127.3</span>, <span class="number">55.0</span>),
+                        egui::widgets::Button::new(RichText::new(<span class="string">&quot;5&quot;</span>).strong().size(<span class="number">21.0</span>)),
+                    );
+                    ui.add_sized(
+                        vec2(<span class="number">127.3</span>, <span class="number">55.0</span>),
+                        egui::widgets::Button::new(RichText::new(<span class="string">&quot;6&quot;</span>).strong().size(<span class="number">21.0</span>)),
+                    );
+                    ui.add_sized(
+                        vec2(<span class="number">97.3</span>, <span class="number">55.0</span>),
+                        egui::widgets::Button::new(RichText::new(<span class="string">&quot;*&quot;</span>).strong().size(<span class="number">21.0</span>)),
+                    );
+                });
+                ui.horizontal(|ui| {
+                    ui.add_sized(
+                        vec2(<span class="number">127.3</span>, <span class="number">55.0</span>),
+                        egui::widgets::Button::new(RichText::new(<span class="string">&quot;7&quot;</span>).strong().size(<span class="number">21.0</span>)),
+                    );
+                    ui.add_sized(
+                        vec2(<span class="number">127.3</span>, <span class="number">55.0</span>),
+                        egui::widgets::Button::new(RichText::new(<span class="string">&quot;8&quot;</span>).strong().size(<span class="number">21.0</span>)),
+                    );
+                    ui.add_sized(
+                        vec2(<span class="number">97.3</span>, <span class="number">55.0</span>),
+                        egui::widgets::Button::new(RichText::new(<span class="string">&quot;/&quot;</span>).strong().size(<span class="number">21.0</span>)),
+                    );
+                });
+                ui.horizontal(|ui| {
+                    ui.add_sized(
+                        vec2(<span class="number">127.3</span>, <span class="number">55.0</span>),
+                        egui::widgets::Button::new(RichText::new(<span class="string">&quot;9&quot;</span>).strong().size(<span class="number">21.0</span>)),
+                    );
+                    ui.add_sized(
+                        vec2(<span class="number">127.3</span>, <span class="number">55.0</span>),
+                        egui::widgets::Button::new(RichText::new(<span class="string">&quot;0&quot;</span>).strong().size(<span class="number">21.0</span>)),
+                    );
+                    ui.add_sized(
+                        vec2(<span class="number">44.5</span>, <span class="number">55.0</span>),
+                        egui::widgets::Button::new(RichText::new(<span class="string">&quot;(&quot;</span>).strong().size(<span class="number">21.0</span>)),
+                    );
+                    ui.add_sized(
+                        vec2(<span class="number">44.5</span>, <span class="number">55.0</span>),
+                        egui::widgets::Button::new(RichText::new(<span class="string">&quot;)&quot;</span>).strong().size(<span class="number">21.0</span>)),
+                    );
+                });
+                ui.horizontal(|ui| {
+                    ui.add_sized(
+                        vec2(ui.available_width(), <span class="number">89.0</span>),
+                        egui::widgets::Button::new(RichText::new(<span class="string">&quot;=&quot;</span>).strong().size(<span class="number">34.0</span>)),
+                    );
+                });
+
+                ui.separator();
+
                 ui.add_sized(
-                    vec2(<span class="number">127.3</span>, <span class="number">55.0</span>),
-                    egui::widgets::Button::new(RichText::new(<span class="string">&quot;2&quot;</span>).strong().size(<span class="number">21.0</span>)),
-                );
-                ui.add_sized(
-                    vec2(<span class="number">97.3</span>, <span class="number">55.0</span>),
-                    egui::widgets::Button::new(RichText::new(<span class="string">&quot;+&quot;</span>).strong().size(<span class="number">21.0</span>)),
+                    ui.available_size(),
+                    egui::widgets::Label::new(
+                        RichText::new(<span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, Local::now().format(<span class="string">&quot;%Y-%m-%d %H:%M:%S %z&quot;</span>))), <span class="comment">// .color(Color32::GOLD),
+                    </span>),
                 );
             });
-            ui.horizontal(|ui| {
-                ui.add_sized(
-                    vec2(<span class="number">127.3</span>, <span class="number">55.0</span>),
-                    egui::widgets::Button::new(RichText::new(<span class="string">&quot;3&quot;</span>).strong().size(<span class="number">21.0</span>)),
-                );
-                ui.add_sized(
-                    vec2(<span class="number">127.3</span>, <span class="number">55.0</span>),
-                    egui::widgets::Button::new(RichText::new(<span class="string">&quot;4&quot;</span>).strong().size(<span class="number">21.0</span>)),
-                );
-                ui.add_sized(
-                    vec2(<span class="number">97.3</span>, <span class="number">55.0</span>),
-                    egui::widgets::Button::new(RichText::new(<span class="string">&quot;-&quot;</span>).strong().size(<span class="number">21.0</span>)),
-                );
-            });
-            ui.horizontal(|ui| {
-                ui.add_sized(
-                    vec2(<span class="number">127.3</span>, <span class="number">55.0</span>),
-                    egui::widgets::Button::new(RichText::new(<span class="string">&quot;5&quot;</span>).strong().size(<span class="number">21.0</span>)),
-                );
-                ui.add_sized(
-                    vec2(<span class="number">127.3</span>, <span class="number">55.0</span>),
-                    egui::widgets::Button::new(RichText::new(<span class="string">&quot;6&quot;</span>).strong().size(<span class="number">21.0</span>)),
-                );
-                ui.add_sized(
-                    vec2(<span class="number">97.3</span>, <span class="number">55.0</span>),
-                    egui::widgets::Button::new(RichText::new(<span class="string">&quot;*&quot;</span>).strong().size(<span class="number">21.0</span>)),
-                );
-            });
-            ui.horizontal(|ui| {
-                ui.add_sized(
-                    vec2(<span class="number">127.3</span>, <span class="number">55.0</span>),
-                    egui::widgets::Button::new(RichText::new(<span class="string">&quot;7&quot;</span>).strong().size(<span class="number">21.0</span>)),
-                );
-                ui.add_sized(
-                    vec2(<span class="number">127.3</span>, <span class="number">55.0</span>),
-                    egui::widgets::Button::new(RichText::new(<span class="string">&quot;8&quot;</span>).strong().size(<span class="number">21.0</span>)),
-                );
-                ui.add_sized(
-                    vec2(<span class="number">97.3</span>, <span class="number">55.0</span>),
-                    egui::widgets::Button::new(RichText::new(<span class="string">&quot;/&quot;</span>).strong().size(<span class="number">21.0</span>)),
-                );
-            });
-            ui.horizontal(|ui| {
-                ui.add_sized(
-                    vec2(<span class="number">127.3</span>, <span class="number">55.0</span>),
-                    egui::widgets::Button::new(RichText::new(<span class="string">&quot;9&quot;</span>).strong().size(<span class="number">21.0</span>)),
-                );
-                ui.add_sized(
-                    vec2(<span class="number">127.3</span>, <span class="number">55.0</span>),
-                    egui::widgets::Button::new(RichText::new(<span class="string">&quot;0&quot;</span>).strong().size(<span class="number">21.0</span>)),
-                );
-                ui.add_sized(
-                    vec2(<span class="number">44.5</span>, <span class="number">55.0</span>),
-                    egui::widgets::Button::new(RichText::new(<span class="string">&quot;(&quot;</span>).strong().size(<span class="number">21.0</span>)),
-                );
-                ui.add_sized(
-                    vec2(<span class="number">44.5</span>, <span class="number">55.0</span>),
-                    egui::widgets::Button::new(RichText::new(<span class="string">&quot;)&quot;</span>).strong().size(<span class="number">21.0</span>)),
-                );
-            });
-            ui.horizontal(|ui| {
-                ui.add_sized(
-                    vec2(ui.available_width(), <span class="number">89.0</span>),
-                    egui::widgets::Button::new(RichText::new(<span class="string">&quot;=&quot;</span>).strong().size(<span class="number">34.0</span>)),
-                );
-            });
-
-            ui.separator();
-
-            ui.add_sized(
-                ui.available_size(),
-                egui::widgets::Label::new(
-                    RichText::new(<span class="macro">format!</span>(<span class="string">&quot;© Calc {}&quot;</span>, OffsetDateTime::now_utc().year())), <span class="comment">// .color(Color32::GOLD),
-                </span>),
-            );
-        });
+        }
     }
 }
 </code></pre></div>
