@@ -510,10 +510,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "domain"
-version = "0.1.0"
-
-[[package]]
 name = "downcast-rs"
 version = "1.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -616,6 +612,10 @@ checksum = "5277249c8c3430e7127e4f2c40a77485e7baf11ae132ce9b3253a8ed710df0a0"
 dependencies = [
  "bytemuck",
 ]
+
+[[package]]
+name = "engine"
+version = "0.1.0"
 
 [[package]]
 name = "enumset"
@@ -907,8 +907,8 @@ dependencies = [
 name = "interface"
 version = "0.1.0"
 dependencies = [
- "domain",
  "eframe",
+ "engine",
  "time",
 ]
 
