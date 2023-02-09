@@ -2,11 +2,8 @@
 
 # Run: git config core.hooksPath `pwd`/.githooks
 
-# Update deps if it's Monday
-if [[ `date '+%A'` == "Monday" ]]; then
 cargo update
 EXIT_CODES+=( $? )
-fi
 
 make release
 EXIT_CODES+=( $? )
