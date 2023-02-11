@@ -1,4 +1,3 @@
-pub mod parser {}
+extern crate pest;
 
-#[cfg(test)]
-mod tests {}
+pub mod parser;
