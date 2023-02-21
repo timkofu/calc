@@ -1,1 +1,1 @@
-window.ALL_CRATES = ["domain","engine","interface"];
+window.ALL_CRATES = ["engine","interface"];
