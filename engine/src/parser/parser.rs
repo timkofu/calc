@@ -1,7 +1,7 @@
 pub mod parser {
     extern crate pest;
 
-    use pest::Parser;
+    // use pest::Parser;
 
     #[derive(Parser)]
     #[grammar = "parser/calc.pest"]
