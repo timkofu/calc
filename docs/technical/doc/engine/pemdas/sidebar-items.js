@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":[["pemdas",""]]};
+window.SIDEBAR_ITEMS = {"mod":["pemdas"]};

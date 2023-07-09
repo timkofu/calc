@@ -1,3 +1,3 @@
 (function() {var implementors = {
-"engine":[["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.67.1/core/cmp/trait.Ord.html\" title=\"trait core::cmp::Ord\">Ord</a> for <a class=\"enum\" href=\"engine/parser/parser/parser/enum.Rule.html\" title=\"enum engine::parser::parser::parser::Rule\">Rule</a>"]]
+"engine":[["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.70.0/core/cmp/trait.Ord.html\" title=\"trait core::cmp::Ord\">Ord</a> for <a class=\"enum\" href=\"engine/parser/parser/parser/enum.Rule.html\" title=\"enum engine::parser::parser::parser::Rule\">Rule</a>"]]
 };if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

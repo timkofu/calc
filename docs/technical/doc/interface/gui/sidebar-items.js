@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":[["gui",""]]};
+window.SIDEBAR_ITEMS = {"mod":["gui"]};

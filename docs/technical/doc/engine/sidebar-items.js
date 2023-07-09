@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":[["calculator",""],["parser",""],["pemdas",""]]};
+window.SIDEBAR_ITEMS = {"mod":["calculator","parser","pemdas"]};
