@@ -7,7 +7,7 @@ pub mod gui {
     #[derive(Default)]
     pub struct Calc {}
 
-    fn custom_window_frame(
+    pub fn custom_window_frame(
         _app: &mut Calc,
         ctx: &egui::Context,
         frame: &mut eframe::Frame,
