@@ -1,8 +1,8 @@
 use eframe;
 use eframe::egui;
 
-pub mod interface;
-use crate::interface::gui::*;
+mod interface;
+use interface::gui::gui::*;
 
 fn main() {
     let options = eframe::NativeOptions {
