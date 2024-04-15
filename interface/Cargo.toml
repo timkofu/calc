@@ -8,4 +8,4 @@ edition = "2021"
 [dependencies]
 engine = { path = "../engine"}
 eframe = "0.20.1"
-chrono = "0.4.23"
+chrono = "0.4.38"
