@@ -1,7 +1,9 @@
 use eframe;
 use eframe::egui;
 
-mod interface;
+mod interface {
+    pub mod gui;
+}
 use interface::gui::gui::*;
 
 fn main() {
