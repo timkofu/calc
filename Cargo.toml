@@ -8,5 +8,5 @@ edition = "2021"
 [dependencies]
 eframe = "~0.20.1"
 chrono = "~0.4.23"
-pest = "~2.5.5"
+pest = "~2.7.9"
 pest_derive = "~2.5.5"
