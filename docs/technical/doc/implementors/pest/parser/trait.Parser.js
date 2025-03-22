@@ -1,3 +1,0 @@
-(function() {var implementors = {
-"engine":[["impl <a class=\"trait\" href=\"https://docs.rs/pest/pest/parser/trait.Parser.html\" title=\"trait pest::parser::Parser\">Parser</a>&lt;<a class=\"enum\" href=\"engine/parser/parser/parser/enum.Rule.html\" title=\"enum engine::parser::parser::parser::Rule\">Rule</a>&gt; for <a class=\"struct\" href=\"engine/parser/parser/parser/struct.CalcParser.html\" title=\"struct engine::parser::parser::parser::CalcParser\">CalcParser</a>"]]
-};if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

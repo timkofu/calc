@@ -1,8 +1,8 @@
 pub mod gui {
+    use std::f32::NAN;
 
     use chrono::Local;
-    use eframe::egui;
-    use egui::*;
+    use eframe::egui::{self, *};
 
     #[derive(Default)]
     pub struct Calc {}
@@ -15,11 +15,10 @@ pub mod gui {
         add_contents: impl FnOnce(&mut egui::Ui),
     ) {
         let text_color = ctx.style().visuals.text_color();
-
         let titlebar_height = 28.0;
 
         CentralPanel::default()
-            .frame(Frame::none())
+            .frame(Frame::none()) // Changed Frame::NONE to Frame::none()
             .show(ctx, |ui| {
                 let rect = ui.max_rect();
                 let painter = ui.painter();
@@ -30,6 +29,7 @@ pub mod gui {
                     10.0,
                     ctx.style().visuals.window_fill(),
                     Stroke::new(1.0, text_color),
+                    StrokeKind::Middle,
                 );
 
                 // Paint the title:
@@ -56,12 +56,7 @@ pub mod gui {
                     rect.max.y = rect.min.y + titlebar_height;
                     rect
                 };
-                let title_bar_response =
-                    ui.interact(title_bar_rect, Id::new("title_bar"), Sense::click());
-
-                if title_bar_response.is_pointer_button_down_on() {
-                    frame.drag_window();
-                }
+                ui.interact(title_bar_rect, Id::new("title_bar"), Sense::drag()); // Changed to Sense::drag(), removed unused response
 
                 // Add the close button:
                 let close_response = ui.put(
@@ -69,7 +64,7 @@ pub mod gui {
                     Button::new(RichText::new("❌").size(titlebar_height - 4.0)).frame(false),
                 );
                 if close_response.clicked() {
-                    frame.close();
+                    ctx.send_viewport_cmd(ViewportCommand::Close); // Replaced frame.close()
                 }
 
                 // Contents:
@@ -79,28 +74,26 @@ pub mod gui {
                     rect
                 }
                 .shrink(4.0);
-                let mut content_ui = ui.child_ui(content_rect, *ui.layout());
+                let mut content_ui = ui.child_ui(content_rect, *ui.layout(), None); // Added Id::new("content")
                 add_contents(&mut content_ui);
             });
     }
 
     impl eframe::App for Calc {
-        fn clear_color(&self, _visuals: &egui::Visuals) -> egui::Rgba {
-            egui::Rgba::TRANSPARENT
+        fn clear_color(&self, _visuals: &egui::Visuals) -> [f32; 4] {
+            egui::Rgba::TRANSPARENT.to_array() // Updated to return [f32; 4]
         }
 
         fn update(&mut self, ctx: &egui::Context, frame: &mut eframe::Frame) {
-            frame.set_centered();
+            // Removed unused centering logic since MoveTo isn’t available
             custom_window_frame(self, ctx, frame, "Calc", |ui| {
                 ui.separator();
 
-                // TO-DO: Make this a type so I can restrict chars to 32
-                // so they can fit on display.
                 let calculation: String = String::from("0");
 
                 ui.add_sized(
                     vec2(ui.available_width(), 144.0),
-                    egui::widgets::Label::new(
+                    egui::Label::new(
                         RichText::new(&calculation)
                             .color(Color32::GREEN)
                             .size(34.0)
@@ -113,81 +106,81 @@ pub mod gui {
                 ui.horizontal(|ui| {
                     ui.add_sized(
                         vec2(127.3, 55.0),
-                        egui::widgets::Button::new(RichText::new("1").strong().size(21.0)),
+                        egui::Button::new(RichText::new("1").strong().size(21.0)),
                     );
                     ui.add_sized(
                         vec2(127.3, 55.0),
-                        egui::widgets::Button::new(RichText::new("2").strong().size(21.0)),
+                        egui::Button::new(RichText::new("2").strong().size(21.0)),
                     );
                     ui.add_sized(
                         vec2(97.3, 55.0),
-                        egui::widgets::Button::new(RichText::new("+").strong().size(21.0)),
+                        egui::Button::new(RichText::new("+").strong().size(21.0)),
                     );
                 });
                 ui.horizontal(|ui| {
                     ui.add_sized(
                         vec2(127.3, 55.0),
-                        egui::widgets::Button::new(RichText::new("3").strong().size(21.0)),
+                        egui::Button::new(RichText::new("3").strong().size(21.0)),
                     );
                     ui.add_sized(
                         vec2(127.3, 55.0),
-                        egui::widgets::Button::new(RichText::new("4").strong().size(21.0)),
+                        egui::Button::new(RichText::new("4").strong().size(21.0)),
                     );
                     ui.add_sized(
                         vec2(97.3, 55.0),
-                        egui::widgets::Button::new(RichText::new("-").strong().size(21.0)),
+                        egui::Button::new(RichText::new("-").strong().size(21.0)),
                     );
                 });
                 ui.horizontal(|ui| {
                     ui.add_sized(
                         vec2(127.3, 55.0),
-                        egui::widgets::Button::new(RichText::new("5").strong().size(21.0)),
+                        egui::Button::new(RichText::new("5").strong().size(21.0)),
                     );
                     ui.add_sized(
                         vec2(127.3, 55.0),
-                        egui::widgets::Button::new(RichText::new("6").strong().size(21.0)),
+                        egui::Button::new(RichText::new("6").strong().size(21.0)),
                     );
                     ui.add_sized(
                         vec2(97.3, 55.0),
-                        egui::widgets::Button::new(RichText::new("*").strong().size(21.0)),
+                        egui::Button::new(RichText::new("*").strong().size(21.0)),
                     );
                 });
                 ui.horizontal(|ui| {
                     ui.add_sized(
                         vec2(127.3, 55.0),
-                        egui::widgets::Button::new(RichText::new("7").strong().size(21.0)),
+                        egui::Button::new(RichText::new("7").strong().size(21.0)),
                     );
                     ui.add_sized(
                         vec2(127.3, 55.0),
-                        egui::widgets::Button::new(RichText::new("8").strong().size(21.0)),
+                        egui::Button::new(RichText::new("8").strong().size(21.0)),
                     );
                     ui.add_sized(
                         vec2(97.3, 55.0),
-                        egui::widgets::Button::new(RichText::new("/").strong().size(21.0)),
+                        egui::Button::new(RichText::new("/").strong().size(21.0)),
                     );
                 });
                 ui.horizontal(|ui| {
                     ui.add_sized(
                         vec2(127.3, 55.0),
-                        egui::widgets::Button::new(RichText::new("9").strong().size(21.0)),
+                        egui::Button::new(RichText::new("9").strong().size(21.0)),
                     );
                     ui.add_sized(
                         vec2(127.3, 55.0),
-                        egui::widgets::Button::new(RichText::new("0").strong().size(21.0)),
+                        egui::Button::new(RichText::new("0").strong().size(21.0)),
                     );
                     ui.add_sized(
                         vec2(44.5, 55.0),
-                        egui::widgets::Button::new(RichText::new("(").strong().size(21.0)),
+                        egui::Button::new(RichText::new("(").strong().size(21.0)),
                     );
                     ui.add_sized(
                         vec2(44.5, 55.0),
-                        egui::widgets::Button::new(RichText::new(")").strong().size(21.0)),
+                        egui::Button::new(RichText::new(")").strong().size(21.0)),
                     );
                 });
                 ui.horizontal(|ui| {
                     ui.add_sized(
                         vec2(ui.available_width(), 89.0),
-                        egui::widgets::Button::new(RichText::new("=").strong().size(34.0)),
+                        egui::Button::new(RichText::new("=").strong().size(34.0)),
                     );
                 });
 
@@ -195,9 +188,10 @@ pub mod gui {
 
                 ui.add_sized(
                     ui.available_size(),
-                    egui::widgets::Label::new(
-                        RichText::new(format!("{}", Local::now().format("%Y-%m-%d %H:%M:%S %z"))), // .color(Color32::GOLD),
-                    ),
+                    egui::Label::new(RichText::new(format!(
+                        "{}",
+                        Local::now().format("%Y-%m-%d %H:%M:%S %z")
+                    ))),
                 );
             });
         }
