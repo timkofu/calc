@@ -18,7 +18,6 @@ viewdocs:
 	@cd docs/technical; python -m http.server 4004
 
 update:
-	@cargo upgrade
 	@cargo update
 
 release: test docs
